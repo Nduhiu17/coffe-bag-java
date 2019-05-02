@@ -16,18 +16,18 @@ public class QuestionController {
     @Autowired
     private QuestionRepository questionRepository;
 
-    @GetMapping("/questions")
+    @GetMapping("/api/v1/questions")
     public Page<Question> getQuestions(Pageable pageable) {
         return questionRepository.findAll(pageable);
     }
 
 
-    @PostMapping("/questions")
+    @PostMapping("/api/v1/questions")
     public Question createQuestion(@Valid @RequestBody Question question) {
         return questionRepository.save(question);
     }
 
-    @PutMapping("/questions/{questionId}")
+    @PutMapping("/api/v1/questions/{questionId}")
     public Question updateQuestion(@PathVariable Long questionId,
                                    @Valid @RequestBody Question questionRequest) {
         return questionRepository.findById(questionId)
@@ -38,14 +38,14 @@ public class QuestionController {
                 }).orElseThrow(() -> new ResourceNotFoundException("Question not found with id " + questionId));
     }
 
-    @GetMapping("/questions/{questionId}")
+    @GetMapping("/api/v1/questions/{questionId}")
     public Question getQuestionById(@PathVariable Long questionId) {
         return questionRepository.findById(questionId)
                 .orElseThrow(() -> new ResourceNotFoundException("Question not found with id " + questionId));
     }
 
 
-    @DeleteMapping("/questions/{questionId}")
+    @DeleteMapping("/api/v1/questions/{questionId}")
     public ResponseEntity<?> deleteQuestion(@PathVariable Long questionId) {
         return questionRepository.findById(questionId)
                 .map(question -> {
