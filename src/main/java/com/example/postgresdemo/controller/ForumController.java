@@ -37,4 +37,9 @@ public class ForumController {
                     return forumRepository.save(forum);
                 }).orElseThrow(() -> new ResourceNotFoundException("Forum not found with id " + forumId));
     }
+    @GetMapping("/api/v1/forums/{forumId}")
+    public Forum getForumById(@PathVariable Long forumId) {
+        return forumRepository.findById(forumId)
+                .orElseThrow(() -> new ResourceNotFoundException("Question not found with id " + forumId));
+    }
 }
