@@ -1,5 +1,9 @@
 package com.example.postgresdemo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -20,8 +24,13 @@ public class Forum extends AuditModel {
     @Size(min = 3, max = 400)
     private String title;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "forum_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Forum forum;
 
-    // Getters and Setters (Omitted for brevity)
+
 
 
     public Long getId() {

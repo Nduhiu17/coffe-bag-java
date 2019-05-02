@@ -1,5 +1,9 @@
 package com.example.postgresdemo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -23,7 +27,12 @@ public class Question extends AuditModel {
     @Column(columnDefinition = "text")
     private String description;
 
-    // Getters and Setters (Omitted for brevity)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "forum_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private Forum forum;
+
 
     public Long getId() {
         return id;
@@ -47,5 +56,13 @@ public class Question extends AuditModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Forum getForum() {
+        return forum;
+    }
+
+    public void setForum(Forum forum) {
+        this.forum = forum;
     }
 }
